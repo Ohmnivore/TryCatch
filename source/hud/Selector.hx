@@ -1,7 +1,9 @@
 package hud;
+import ent.Entity;
 import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.util.FlxPoint;
 
 /**
  * ...
@@ -9,10 +11,6 @@ import flixel.FlxSprite;
  */
 class Selector extends FlxSprite {
 	
-	public var onMove:Float->Float->Void;
-	public var onSelect:Float->Float->Void;
-	
-	public var tileSize:Int;
 	public var rightKey:String = "RIGHT";
 	public var leftKey:String = "LEFT";
 	public var upKey:String = "UP";
@@ -23,9 +21,10 @@ class Selector extends FlxSprite {
 	private var oldX:Float = 0;
 	private var oldY:Float = 0;
 	
-	public function new(TileSize:Int, X:Float = 0, Y:Float = 0) {
-		tileSize = TileSize;
-		
+	public var curTileX:Int;
+	public var curTileY:Int;
+	
+	public function new(X:Float = 0, Y:Float = 0) {
 		super(X, Y);
 		loadGraphic("assets/images/selector.png", true, 38, 38);
 		offset.set(4, 4);
@@ -43,7 +42,7 @@ class Selector extends FlxSprite {
 	private function updatePosition():Void {
 		if (FlxG.keys.anyPressed([rightKey]))
 			if (FlxG.keys.anyJustPressed([rightKey]))
-				xBuffer += tileSize;
+				xBuffer += Reg.TILESIZE;
 			else
 				xBuffer += 4;
 		else if (FlxG.keys.anyPressed([leftKey]))
@@ -53,7 +52,7 @@ class Selector extends FlxSprite {
 				xBuffer -= 4;
 		else if (FlxG.keys.anyPressed([downKey]))
 			if (FlxG.keys.anyJustPressed([downKey]))
-				yBuffer += tileSize;
+				yBuffer += Reg.TILESIZE;
 			else
 				yBuffer += 4;
 		else if (FlxG.keys.anyPressed([upKey]))
@@ -67,17 +66,31 @@ class Selector extends FlxSprite {
 		if (!FlxG.keys.anyPressed([upKey, downKey]))
 			yBuffer = Std.int(y);
 		
-		x = Math.floor(xBuffer / tileSize) * tileSize;
-		y = Math.floor(yBuffer / tileSize) * tileSize;
+		x = Math.floor(xBuffer / Reg.TILESIZE) * Reg.TILESIZE;
+		y = Math.floor(yBuffer / Reg.TILESIZE) * Reg.TILESIZE;
 		
-		if (oldX != x || oldY != y)
-			onMove(x, y);
+		if (oldX != x || oldY != y) {
+			curTileX = Math.floor(x / Reg.TILESIZE);
+			curTileY = Math.floor(y / Reg.TILESIZE);
+		}
 		
 		oldX = x;
 		oldY = y;
 	}
 	
+	public function getTileCoords():FlxPoint {
+		return new FlxPoint(curTileX * Reg.TILESIZE, curTileY * Reg.TILESIZE);
+	}
+	public function getTileMidpoint():FlxPoint {
+		return new FlxPoint(curTileX * Reg.TILESIZE + Reg.HALFTILESIZE, curTileY * Reg.TILESIZE + Reg.HALFTILESIZE);
+	}
+	
 	public function setCameraFollow():Void {
 		FlxG.camera.follow(this, FlxCamera.STYLE_TOPDOWN, null, 10.0);
+	}
+	
+	public function snapToEntity(E:Entity):Void {
+		var newPos:FlxPoint = E.getTileCoords();
+		setPosition(newPos.x, newPos.y);
 	}
 }

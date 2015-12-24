@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="48" height="48" tilewidth="32" tileheight="32" backgroundcolor="#1f1d2c" nextobjectid="22">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="48" height="48" tilewidth="32" tileheight="32" backgroundcolor="#1f1d2c" nextobjectid="23">
+ <properties>
+  <property name="scene" value="Intro"/>
+ </properties>
  <tileset firstgid="1" name="sciFiIndoorTileset" tilewidth="32" tileheight="32" tilecount="84">
   <image source="../images/sciFiIndoorTileset.png" width="448" height="192"/>
  </tileset>
@@ -14,7 +17,7 @@
 0,0,0,31,31,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,44,45,39,7,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,20,21,21,21,21,40,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,34,35,35,35,35,36,70,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,34,35,35,35,35,36,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,17,17,17,17,17,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -57,7 +60,20 @@
  </layer>
  <objectgroup name="Object Layer 1">
   <object id="18" name="Station" x="298" y="269"/>
-  <object id="19" name="Unit27" x="207" y="272"/>
-  <object id="20" name="Terminal" x="141" y="270"/>
+  <object id="19" name="Unit27" x="207" y="272">
+   <properties>
+    <property name="name" value="Some robot"/>
+   </properties>
+  </object>
+  <object id="20" name="Terminal" x="142" y="241">
+   <properties>
+    <property name="name" value="Big box with a big screen"/>
+   </properties>
+  </object>
+  <object id="22" name="Entity" x="111" y="241">
+   <properties>
+    <property name="name" value="Big box with a smaller screen"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

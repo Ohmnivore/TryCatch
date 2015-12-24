@@ -24,13 +24,13 @@ class Status extends FlxGroup {
 		
 		bg = new FlxSprite(MARGIN, MARGIN);
 		add(bg);
-		bg.scrollFactor.set(0, 0);
+		bg.scrollFactor.set();
 		
 		name = new FlxText(MARGIN * 2, MARGIN * 2);
 		add(name);
 		name.text = DEFAULT_NAME;
 		name.color = TEXT_COLOR;
-		name.scrollFactor.set(0, 0);
+		name.scrollFactor.set();
 		
 		updateBg();
 	}

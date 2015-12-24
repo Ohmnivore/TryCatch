@@ -1,5 +1,6 @@
 package ent;
 import flixel.group.FlxTypedGroup;
+import hud.Selector;
 
 /**
  * ...
@@ -11,9 +12,9 @@ class EntityGroup extends FlxTypedGroup<Entity> {
 		super();
 	}
 	
-	public function getEntity(X:Float, Y:Float):Entity {
+	public function getSelectedEntity(S:Selector):Entity {
 		for (m in members)
-			if (m.x == X && m.y == Y)
+			if (m.curTileX == S.curTileX && m.curTileY == S.curTileY)
 				return m;
 		return null;
 	}
@@ -21,6 +22,13 @@ class EntityGroup extends FlxTypedGroup<Entity> {
 	public function getEntityByName(Name:String):Entity {
 		for (m in members)
 			if (m.name == Name)
+				return m;
+		return null;
+	}
+	
+	public function getEntityByClass(C:Class<Entity>):Entity {
+		for (m in members)
+			if (Type.getClass(m) == C)
 				return m;
 		return null;
 	}

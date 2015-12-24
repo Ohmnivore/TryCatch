@@ -7,8 +7,21 @@ import flash.events.Event;
 import flash.Lib;
 import flixel.FlxGame;
 import flixel.FlxState;
+import ent.*;
+import scene.*;
 
 class Main extends Sprite  {
+	
+	private static function includeCompilation():Void {
+		// Entities
+		Entity;
+		Station;
+		Terminal;
+		Unit27;
+		
+		// Scenes
+		Intro;
+	}
 	
 	var gameWidth:Int = 320; // Width of the game in pixels (might be less / more in actual pixels depending on your zoom).
 	var gameHeight:Int = 240; // Height of the game in pixels (might be less / more in actual pixels depending on your zoom).

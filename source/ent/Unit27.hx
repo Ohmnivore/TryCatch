@@ -14,7 +14,10 @@ class Unit27 extends Entity {
 	
 	public function new(X:Float, Y:Float) {
 		super(X, Y);
+		visible = true;
 		name = "Unit 27";
+		team = 0;
+		moveDistance = 2;
 		
 		anim = new AnimQueue();
 		loadGraphic("assets/images/chib.png", true, 24, 32);
@@ -24,9 +27,9 @@ class Unit27 extends Entity {
 		animation.add("close", [0, 1, 2, 3, 4, 5], 12, false);
 		animation.add("alert", [9], 1, false);
 		animation.add("question", [10], 1, false);
-		offset.x = (width - 32.0) / 2.0;
-		offset.y = 4.0;
-		animation.play("close", true, 5);
+		offset.x = (width - Reg.TILESIZE) / 2;
+		offset.y = 4;
+		anim.add(animation.get("idle"));
 	}
 	
 	public function open():Void {
@@ -60,10 +63,8 @@ class AnimQueue {
 	
 	public function update() {
 		if (queue.length > 0) {
-			if (queue[0].finished || queue[0].looped) {
-				trace("done: " + queue[0].name);
+			if (queue[0].finished || queue[0].looped)
 				queue.shift();
-			}
 			if (queue.length > 0)
 				queue[0].parent.play(queue[0].name);
 		}
