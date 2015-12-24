@@ -1,5 +1,4 @@
 # TODO
-* Text decypher effect
-* highlight interactible items
+* Highlight interactible items
 * Interact with items
 * Turns and action points
