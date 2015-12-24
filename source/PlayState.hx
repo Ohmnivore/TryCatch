@@ -15,6 +15,7 @@ import hud.Speech;
 import hud.Status;
 import scene.Intro;
 import util.TiledLoader;
+import flixel.system.scaleModes.RatioScaleMode;
 
 class PlayState extends FlxState {
 	
@@ -39,6 +40,7 @@ class PlayState extends FlxState {
 		super.create();
 		
 		FlxG.mouse.visible = false;
+		FlxG.scaleMode = new RatioScaleMode();
 		
 		tilemaps = new FlxTypedGroup<FlxTilemap>();
 		under = new FlxGroup();
