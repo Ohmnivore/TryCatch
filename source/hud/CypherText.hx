@@ -33,10 +33,10 @@ class CypherText extends FlxText {
 		var i:Int = 0;
 		while (i <= cur)
 			buffer += realText.charAt(i++);
-		while (i < realText.length * 0.5) {
-			buffer += FlxRandom.getObject(random);
-			i++;
-		}
+		//while (i < realText.length * 0.5) {
+			//buffer += FlxRandom.getObject(random);
+			//i++;
+		//}
 		text = buffer;
 	}
 	

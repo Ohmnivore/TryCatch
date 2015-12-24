@@ -30,7 +30,7 @@ class Selector extends FlxSprite {
 		offset.set(4, 4);
 		animation.add("opened", [0]);
 		animation.add("closed", [1]);
-		animation.add("alternating", [0, 1], 2);
+		animation.add("alternating", [0, 1], 1);
 		animation.play("alternating");
 	}
 	

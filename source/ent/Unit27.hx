@@ -21,7 +21,7 @@ class Unit27 extends Entity {
 		
 		anim = new AnimQueue();
 		loadGraphic("assets/images/chib.png", true, 24, 32);
-		animation.add("idle", [11, 11, 11, 11, 11, 12, 12], 2);
+		animation.add("idle", [11, 11, 12, 12, 11, 11, 11, 11, 11, 11, 11, 11], 2);
 		animation.add("init", [5, 6, 7, 8], 4, false);
 		animation.add("open", [5, 4, 3, 2, 1, 0], 12, false);
 		animation.add("close", [0, 1, 2, 3, 4, 5], 12, false);
@@ -35,7 +35,7 @@ class Unit27 extends Entity {
 	public function open():Void {
 		anim.add(animation.get("init"));
 		anim.add(animation.get("open"));
-		anim.add(animation.get("idle"));
+		anim.add(animation.get("idle"), 10);
 	}
 	
 	override public function update():Void {
@@ -46,27 +46,41 @@ class Unit27 extends Entity {
 
 class AnimQueue {
 	
-	private var queue:Array<FlxAnimation>;
+	private var queue:Array<AnimQueueElement>;
 	
 	public function new() {
 		queue = [];
 	}
 	
-	public function add(Anim:FlxAnimation):Void
+	public function add(Anim:FlxAnimation, StartFrame:Int = 0):Void
 	{
-		queue.push(Anim);
+		queue.push(new AnimQueueElement(Anim, StartFrame));
 		if (queue.length == 1) {
-			Anim.parent.play(Anim.name);
+			Anim.parent.play(Anim.name, false, StartFrame);
 			Anim.parent.update();
 		}
 	}
 	
 	public function update() {
 		if (queue.length > 0) {
-			if (queue[0].finished || queue[0].looped)
+			var e:AnimQueueElement = queue[0];
+			if (e.anim.finished || e.anim.looped)
 				queue.shift();
-			if (queue.length > 0)
-				queue[0].parent.play(queue[0].name);
+			if (queue.length > 0) {
+				e = queue[0];
+				e.anim.parent.play(e.anim.name, false, e.startFrame);
+			}
 		}
+	}
+}
+
+class AnimQueueElement {
+	
+	public var anim:FlxAnimation;
+	public var startFrame:Int;
+	
+	public function new(Anim:FlxAnimation, StartFrame:Int) {
+		anim = Anim;
+		startFrame = StartFrame;
 	}
 }

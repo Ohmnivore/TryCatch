@@ -40,7 +40,8 @@ class Intro {
 		state.speech.exists = true;
 		state.speech.show([
 			"You're my new remote operator, right?",
-			"You see, I wasn't dropped in the right sector. Hold on, get me to that terminal over there, then we can talk. The big box with the big screen."
+			"You see, I wasn't dropped in the right sector.",
+			"Hold on, get me to that terminal over there, then we can talk. The big box with the big screen."
 			//"You're my new remote operator, right? I'm K, short for Unit 27, knock-off Data Inc. maintenance bot geared for sabotage. I'm somewhat of a big deal around these parts, you could say.",
 			//"Now uh, they kind of dropped me off in the wrong sector. We'll need to take the express to get to the core of the facility.",
 			//"You see that mainframe over there? Big box with the big screen. Get me over there so we can call an express shuttle."
