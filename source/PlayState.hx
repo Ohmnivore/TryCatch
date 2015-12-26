@@ -15,6 +15,8 @@ import hud.Selector;
 import hud.Speech;
 import hud.Status;
 import scene.Intro;
+import state.Browse;
+import state.Context;
 import util.TiledLoader;
 import flixel.system.scaleModes.RatioScaleMode;
 
@@ -31,15 +33,12 @@ class PlayState extends FlxState {
 	public var status:Status;
 	public var speech:Speech;
 	public var hint:HintText;
-	public var context:Int;
 	
-	static public inline var C_CINEMATIC:Int = 0;
-	static public inline var C_BROWSE:Int = 1;
-	static public inline var C_MOVE:Int = 2;
-	static public inline var C_ACTION:Int = 3;
+	public var context:Context;
 	
 	override public function create():Void {
 		super.create();
+		Reg.state = this;
 		
 		FlxG.mouse.visible = false;
 		FlxG.scaleMode = new RatioScaleMode();
@@ -75,13 +74,18 @@ class PlayState extends FlxState {
 			tilemaps.add(tilemap);
 		for (e in tl.entities)
 			entities.add(e);
-		context = C_BROWSE;
 		
 		// Set selector pos to protagonist
 		var e:Entity = entities.getEntityByClass(Unit27);
 		selector.x = e.x;
 		selector.y = e.y;
 		
+		// Create the selection grid
+		grid = new Grid(tilemaps.members[0].widthInTiles, tilemaps.members[0].heightInTiles);
+		grid.collisionMap = tilemaps.members[0];
+		tilemaps.add(grid);
+		
+		context = new Browse();
 		// Load intro scene, if any
 		if (tl.sceneName != null) {
 			var skip:Bool = false;
@@ -90,12 +94,6 @@ class PlayState extends FlxState {
 			#end
 			loadScene(tl.sceneName, skip);
 		}
-		
-		// Create the selection grid
-		grid = new Grid(tilemaps.members[0].widthInTiles, tilemaps.members[0].heightInTiles);
-		grid.collisionMap = tilemaps.members[0];
-		grid.canvas = canvas;
-		tilemaps.add(grid);
 	}
 	
 	public function loadScene(Name:String, Skip:Bool = false):Void {
@@ -103,57 +101,8 @@ class PlayState extends FlxState {
 		Type.createInstance(Type.resolveClass(className), [this, Skip]);
 	}
 	
-	override public function destroy():Void {
-		super.destroy();
-	}
-	
 	override public function update():Void {
 		super.update();
-		
-		status.set(entities.getEntityAt(selector));
-		
-		if (context == C_BROWSE) {
-			if (FlxG.keys.justPressed.Z) {
-				startMove();
-			}
-		}
-		else if (context == C_MOVE) {
-			grid.showArrow(selector);
-			hint.visible = false;
-			
-			if (grid.getTileAt(selector) == Grid.MOVE) {
-				if (FlxG.keys.justPressed.Z && grid.path != null) {
-					grid.cur.followPath(grid.path);
-					stopMove();
-				}
-			}
-			else if (grid.getTileAt(selector) == Grid.INTERACT) {
-				var selected:Entity = entities.getEntityAt(selector);
-				if (Grid.getEntDistance(grid.cur, selected) <= 1) {
-					hint.visible = true;
-					hint.setText(selected.hint);
-					hint.setTile(selected.curTileX, selected.curTileY);
-				}
-			}
-			
-			if (FlxG.keys.justPressed.X) {
-				selector.snapToEntity(grid.cur);
-				stopMove();
-			}
-		}
-	}
-	
-	private function startMove():Void {
-		var e:Entity = entities.getEntityAt(selector);
-		if (e != null && e.exists && !e.moving && e.team == 0) {
-			grid.showMove(e, entities);
-			context = C_MOVE;
-		}
-	}
-	
-	private function stopMove():Void {
-		grid.clear();
-		hint.visible = false;
-		context = C_BROWSE;
+		context.update();
 	}
 }

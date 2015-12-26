@@ -3,6 +3,8 @@ import ent.Station;
 import ent.Unit27;
 import flixel.FlxG;
 import flixel.util.FlxTimer;
+import state.Browse;
+import state.Cinematic;
 
 /**
  * ...
@@ -24,9 +26,7 @@ class Intro {
 	
 	private function start():Void {
 		if (!skip) {
-			state.context = PlayState.C_CINEMATIC;
-			state.selector.exists = false;
-			state.status.exists = false;
+			state.context = new Cinematic();
 			new FlxTimer(5, onCue);
 			p.open();
 		}
@@ -55,13 +55,8 @@ class Intro {
 	}
 	
 	private function end(T:FlxTimer = null):Void {
-		state.context = PlayState.C_BROWSE;
-		
-		state.selector.exists = true;
-		state.status.exists = true;
-		state.speech.exists = false;
-		
 		p.anim.add(p.animation.get("open"));
 		p.anim.add(p.animation.get("idle"));
+		state.context = new Browse();
 	}
 }

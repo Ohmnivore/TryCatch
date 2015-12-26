@@ -25,8 +25,6 @@ class Grid extends FlxTilemap {
 	static public inline var INTERACT:Int = 3;
 	
 	public var collisionMap:FlxTilemap;
-	public var canvas:Canvas;
-	public var cur:Entity;
 	public var path:Array<FlxPoint>;
 	
 	public function new(WidthInTiles:Int, HeightInTiles:Int) {
@@ -53,8 +51,7 @@ class Grid extends FlxTilemap {
 				setTile(j, i, EMPTY);
 	}
 	
-	public function showMove(E:Entity, Ents:EntityGroup):Void {
-		cur = E;
+	public function showActions(E:Entity, Ents:EntityGroup):Void {
 		var tx:Int = Std.int(E.x / _tileWidth);
 		var ty:Int = Std.int(E.y / _tileHeight);
 		for (i in 0...heightInTiles)
@@ -87,11 +84,10 @@ class Grid extends FlxTilemap {
 		return getTile(E.curTileX, E.curTileY);
 	}
 	
-	public function showArrow(S:Selector):Void {
-		if (getTile(S.curTileX, S.curTileY) == MOVE) {
-			path = collisionMap.findPath(cur.getTileMidpoint(), S.getTileMidpoint(),
+	public function storePath(From:Entity, To:Entity):Void {
+		if (getTile(To.curTileX, To.curTileY) == MOVE) {
+			path = collisionMap.findPath(From.getTileMidpoint(), To.getTileMidpoint(),
 				true, false, true);
-			canvas.drawMoveLine(path);
 		}
 		else
 			path = null;

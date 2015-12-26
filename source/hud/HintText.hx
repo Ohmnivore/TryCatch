@@ -1,19 +1,19 @@
 package hud;
 import flixel.FlxSprite;
-import flixel.group.FlxSpriteGroup;
+import flixel.group.FlxGroup;
 import flixel.text.FlxText;
 
 /**
  * ...
  * @author Ohmnivore
  */
-class HintText extends FlxSpriteGroup {
+class HintText extends FlxGroup {
 	
 	public var bg:FlxSprite;
 	public var text:FlxText;
 	
-	public function new(X:Float = 0, Y:Float = 0) {
-		super(X, Y);
+	public function new() {
+		super();
 		bg = new FlxSprite();
 		add(bg);
 		text = new FlxText();
@@ -32,12 +32,8 @@ class HintText extends FlxSpriteGroup {
 	}
 	
 	public function setTile(TileX:Float, TileY:Float):Void {
-		x = TileX * Reg.TILESIZE + Reg.HALFTILESIZE - bg.width / 2;
-		y = TileY * Reg.TILESIZE + Reg.HALFTILESIZE - bg.height;
-	}
-	
-	override public function update():Void {
-		super.update();
+		var x:Float = TileX * Reg.TILESIZE + Reg.HALFTILESIZE - bg.width / 2;
+		var y:Float = TileY * Reg.TILESIZE + Reg.HALFTILESIZE - bg.height;
 		bg.setPosition(x, y);
 		text.setPosition(x + Style.MARGIN, y + Style.MARGIN);
 	}

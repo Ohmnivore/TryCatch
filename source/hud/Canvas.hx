@@ -18,8 +18,12 @@ class Canvas extends FlxSprite {
 	}
 	
 	override public function update():Void {
-		FlxSpriteUtil.fill(this, FlxColor.TRANSPARENT);
+		clear();
 		super.update();
+	}
+	
+	public function clear():Void {
+		FlxSpriteUtil.fill(this, FlxColor.TRANSPARENT);
 	}
 	
 	public function drawMoveLine(Path:Array<FlxPoint>):Void {

@@ -27,7 +27,7 @@ class CypherText extends FlxText {
 	override public function update():Void {
 		super.update();
 		
-		var buffer:String = "";
+		var buffer:String = "> ";
 		var i:Int = 0;
 		while (i <= cur)
 			buffer += realText.charAt(i++);
