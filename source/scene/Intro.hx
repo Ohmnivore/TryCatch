@@ -1,4 +1,5 @@
 package scene;
+import ent.Station;
 import ent.Unit27;
 import flixel.FlxG;
 import flixel.util.FlxTimer;
@@ -10,27 +11,32 @@ import flixel.util.FlxTimer;
 class Intro {
 	
 	public var state:PlayState;
+	public var skip:Bool;
 	public var p:Unit27;
+	public var station:Station;
 	
-	public function new(P:PlayState) {
+	public function new(P:PlayState, Skip:Bool = false) {
 		state = P;
+		skip = Skip;
 		p = cast state.entities.getEntityByClass(Unit27);
-		
 		start();
 	}
 	
 	private function start():Void {
-		state.context = PlayState.C_CINEMATIC;
-		
-		state.selector.exists = false;
-		state.status.exists = false;
+		if (!skip) {
+			state.context = PlayState.C_CINEMATIC;
+			state.selector.exists = false;
+			state.status.exists = false;
+			new FlxTimer(5, onCue);
+			p.open();
+		}
 		
 		state.selector.x = p.x;
 		state.selector.y = p.y;
 		FlxG.camera.focusOn(p.getMidpoint());
-		p.open();
 		
-		new FlxTimer(5, onCue);
+		station = cast state.entities.getEntityByClass(Station);
+		station.exists = false;
 	}
 	
 	private function onCue(T:FlxTimer = null):Void {

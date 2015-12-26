@@ -10,6 +10,7 @@ import flixel.group.FlxTypedGroup;
 import flixel.tile.FlxTilemap;
 import hud.Canvas;
 import hud.Grid;
+import hud.HintText;
 import hud.Selector;
 import hud.Speech;
 import hud.Status;
@@ -29,6 +30,7 @@ class PlayState extends FlxState {
 	public var selector:Selector;
 	public var status:Status;
 	public var speech:Speech;
+	public var hint:HintText;
 	public var context:Int;
 	
 	static public inline var C_CINEMATIC:Int = 0;
@@ -61,6 +63,9 @@ class PlayState extends FlxState {
 		speech = new Speech();
 		hud.add(speech);
 		
+		hint = new HintText();
+		hud.add(hint);
+		
 		var tl:TiledLoader = new TiledLoader("assets/data/1.tmx");
 		FlxG.camera.bgColor = tl.bgColor;
 		for (tilemap in tl.tilemaps)
@@ -71,7 +76,11 @@ class PlayState extends FlxState {
 		var e:Entity = entities.getEntityByClass(Unit27);
 		selector.x = e.x;
 		selector.y = e.y;
-		loadScene(tl.sceneName);
+		var skip:Bool = false;
+		#if !FLX_NO_DEBUG
+		skip = true;
+		#end
+		loadScene(tl.sceneName, skip);
 		
 		canvas = new Canvas();
 		under.add(canvas);
@@ -81,9 +90,9 @@ class PlayState extends FlxState {
 		tilemaps.add(grid);
 	}
 	
-	public function loadScene(Name:String):Void {
+	public function loadScene(Name:String, Skip:Bool = false):Void {
 		var className:String = "scene." + Name;
-		Type.createInstance(Type.resolveClass(className), [this]);
+		Type.createInstance(Type.resolveClass(className), [this, Skip]);
 	}
 	
 	override public function destroy():Void {
@@ -102,10 +111,24 @@ class PlayState extends FlxState {
 		}
 		else if (context == C_MOVE) {
 			grid.showArrow(selector);
-			if (FlxG.keys.justPressed.Z) {
-				grid.cur.followPath(grid.path);
-				stopMove();
+			hint.visible = false;
+			
+			if (grid.selectedTile(selector) == Grid.MOVE) {
+				if (FlxG.keys.justPressed.Z && grid.path != null) {
+					grid.cur.followPath(grid.path);
+					stopMove();
+				}
 			}
+			else if (grid.selectedTile(selector) == Grid.INTERACT) {
+				var selected:Entity = entities.getSelectedEntity(selector);
+				if (Grid.getEntDistance(grid.cur, selected) <= 1) {
+					hint.visible = true;
+					hint.setText(selected.hint);
+					hint.x = selected.curTileX * Reg.TILESIZE + Reg.HALFTILESIZE - hint.bg.width / 2;
+					hint.y = selected.curTileY * Reg.TILESIZE + Reg.HALFTILESIZE - hint.bg.height;
+				}
+			}
+			
 			if (FlxG.keys.justPressed.X) {
 				selector.snapToEntity(grid.cur);
 				stopMove();
@@ -115,14 +138,15 @@ class PlayState extends FlxState {
 	
 	private function startMove():Void {
 		var e:Entity = entities.getSelectedEntity(selector);
-		if (e != null && e.team == 0) {
-			grid.showMove(e);
+		if (e != null && e.exists && !e.moving && e.team == 0) {
+			grid.showMove(e, entities);
 			context = C_MOVE;
 		}
 	}
 	
 	private function stopMove():Void {
 		grid.clear();
+		hint.visible = false;
 		context = C_BROWSE;
 	}
 }

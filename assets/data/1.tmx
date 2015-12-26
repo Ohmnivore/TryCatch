@@ -59,7 +59,11 @@
 </data>
  </layer>
  <objectgroup name="Object Layer 1">
-  <object id="18" name="Station" x="298" y="269"/>
+  <object id="18" name="Station" x="298" y="269">
+   <properties>
+    <property name="name" value="Train stop"/>
+   </properties>
+  </object>
   <object id="19" name="Unit27" x="207" y="272">
    <properties>
     <property name="name" value="Some robot"/>
@@ -67,12 +71,14 @@
   </object>
   <object id="20" name="Terminal" x="142" y="241">
    <properties>
+    <property name="hint" value="Schedule a train pickup"/>
+    <property name="interact" value="true"/>
     <property name="name" value="Big box with a big screen"/>
    </properties>
   </object>
   <object id="22" name="Entity" x="111" y="241">
    <properties>
-    <property name="name" value="Big box with a smaller screen"/>
+    <property name="name" value="Big box with a small screen"/>
    </properties>
   </object>
  </objectgroup>

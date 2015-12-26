@@ -1,5 +1,6 @@
 package hud;
 import ent.Entity;
+import ent.EntityGroup;
 import flixel.FlxCamera;
 import flixel.tile.FlxTilemap;
 import flixel.tile.FlxTilemapBuffer;
@@ -52,7 +53,7 @@ class Grid extends FlxTilemap {
 				setTile(j, i, EMPTY);
 	}
 	
-	public function showMove(E:Entity):Void {
+	public function showMove(E:Entity, Ents:EntityGroup):Void {
 		cur = E;
 		var tx:Int = Std.int(E.x / _tileWidth);
 		var ty:Int = Std.int(E.y / _tileHeight);
@@ -62,12 +63,23 @@ class Grid extends FlxTilemap {
 					if (pathIsOk(
 						E.getTileMidpoint(),
 						new FlxPoint(j * Reg.TILESIZE + Reg.HALFTILESIZE, i * Reg.TILESIZE + Reg.HALFTILESIZE)
-						))
-						setTile(j, i, MOVE);
+						)) {
+							// Move tile
+							setTile(j, i, MOVE);
+							// Interact tile
+							for (e in Ents.members)
+								if (e.interact)
+									if (getDistance(e.curTileX, e.curTileY, j, i) <= 1)
+										setTile(e.curTileX, e.curTileY, INTERACT);
+						}
 	}
 	
-	private function getDistance(X1:Int, Y1:Int, X2:Int, Y2:Int):Float {
+	static public function getDistance(X1:Int, Y1:Int, X2:Int, Y2:Int):Float {
 		return Math.sqrt(Math.pow(X1 - X2, 2) + Math.pow(Y1 - Y2, 2));
+	}
+	
+	static public function getEntDistance(E1:Entity, E2:Entity):Float {
+		return getDistance(E1.curTileX, E1.curTileY, E2.curTileX, E2.curTileY);
 	}
 	
 	private function pathIsOk(Start:FlxPoint, End:FlxPoint):Bool {
@@ -80,6 +92,12 @@ class Grid extends FlxTilemap {
 				true, false, true);
 			canvas.drawMoveLine(path);
 		}
+		else
+			path = null;
+	}
+	
+	public function selectedTile(S:Selector):Int {
+		return getTile(S.curTileX, S.curTileY);
 	}
 	
 	private var b:BitmapData;

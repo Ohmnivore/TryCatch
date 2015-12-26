@@ -36,11 +36,13 @@ class Status extends FlxGroup {
 	}
 	
 	public function set(E:Entity):Void {
-		if (E == null)
-			name.text = DEFAULT_NAME;
-		else
-			name.text = E.name;
-		updateBg();
+		var newText:String = DEFAULT_NAME;
+		if (E != null && E.exists)
+			newText = E.name;
+		if (name.text != newText) {
+			name.text = newText;
+			updateBg();
+		}
 	}
 	
 	private function updateBg():Void {

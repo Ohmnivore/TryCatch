@@ -43,8 +43,22 @@ class TiledLoader {
 			
 			if (obj.hasNode.properties)
 				for (prop in obj.node.properties.nodes.property)
-					Reflect.setProperty(ent, prop.att.name, prop.att.value);
+					Reflect.setProperty(ent, prop.att.name, parseValue(prop.att.value));
 		}
+	}
+	private function parseValue(Text:String):Dynamic {
+		if (Text == "true")
+			return true;
+		else if (Text == "false")
+			return false;
+		else if (isDigit(Text.charAt(0)))
+			return Std.parseFloat(Text);
+		else
+			return Text;
+	}
+	private function isDigit(Char:String):Bool {
+		return (Char == "0" || Char == "1" || Char == "2" || Char == "3" || Char == "4" || Char == "5" ||
+			Char == "6" || Char == "7" || Char == "8" || Char == "9");
 	}
 	
 	private function handleTileLayer(F:Fast):Void {
