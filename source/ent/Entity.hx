@@ -26,6 +26,7 @@ class Entity extends FlxSprite {
 	
 	public function new(X:Float, Y:Float) {
 		super(X, Y);
+		updateTileCoords();
 		name = "---";
 		team = -1;
 		moveDistance = 0;
@@ -40,13 +41,16 @@ class Entity extends FlxSprite {
 	override public function update():Void 
 	{
 		super.update();
-		curTileX = Math.floor(x / Reg.TILESIZE);
-		curTileY = Math.floor(y / Reg.TILESIZE);
+		updateTileCoords();
 		
 		if (path != null && path.finished)
 			moving = false;
 	}
 	
+	private function updateTileCoords():Void {
+		curTileX = Math.floor(x / Reg.TILESIZE);
+		curTileY = Math.floor(y / Reg.TILESIZE);
+	}
 	
 	public function getTileCoords():FlxPoint {
 		return new FlxPoint(curTileX * Reg.TILESIZE, curTileY * Reg.TILESIZE);

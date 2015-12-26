@@ -10,7 +10,7 @@ class Context {
 	public function new() {
 		Reg.state.canvas.exists = true;
 		Reg.state.grid.exists = true;
-		Reg.state.hint.exists = true;
+		Reg.state.hint.visible = false;
 		Reg.state.selector.exists = true;
 		Reg.state.status.exists = true;
 		Reg.state.speech.exists = false;

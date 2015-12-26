@@ -12,7 +12,6 @@ class Browse extends Context {
 		super();
 		Reg.state.canvas.exists = false;
 		Reg.state.grid.exists = false;
-		Reg.state.hint.exists = false;
 	}
 	
 	override public function update():Void {

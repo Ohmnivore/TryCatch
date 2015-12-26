@@ -10,29 +10,26 @@ import state.Cinematic;
  * ...
  * @author Ohmnivore
  */
-class Intro {
+class Intro extends Scene {
 	
-	public var state:PlayState;
-	public var skip:Bool;
 	public var p:Unit27;
 	public var station:Station;
 	
 	public function new(P:PlayState, Skip:Bool = false) {
-		state = P;
-		skip = Skip;
+		super(P, Skip);
 		p = cast state.entities.getEntityByClass(Unit27);
 		start();
 	}
 	
-	private function start():Void {
+	override private function start():Void {
+		super.start();
+		
 		if (!skip) {
-			state.context = new Cinematic();
 			new FlxTimer(5, onCue);
 			p.open();
 		}
 		
-		state.selector.x = p.x;
-		state.selector.y = p.y;
+		state.selector.snapToEntity(p);
 		FlxG.camera.focusOn(p.getMidpoint());
 		
 		station = cast state.entities.getEntityByClass(Station);
@@ -43,7 +40,6 @@ class Intro {
 		p.anim.add(p.animation.get("close"));
 		p.anim.add(p.animation.get("alert"));
 		
-		state.speech.exists = true;
 		state.speech.show([
 			"You're my new remote operator, right?",
 			"You see, I wasn't dropped in the right sector.",
@@ -54,9 +50,10 @@ class Intro {
 			], end);
 	}
 	
-	private function end(T:FlxTimer = null):Void {
+	override private function end(T:FlxTimer = null):Void {
+		super.end(T);
+		
 		p.anim.add(p.animation.get("open"));
 		p.anim.add(p.animation.get("idle"));
-		state.context = new Browse();
 	}
 }

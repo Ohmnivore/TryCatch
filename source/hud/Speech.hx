@@ -39,6 +39,7 @@ class Speech extends FlxGroup {
 	}
 	
 	public function show(Msg:Array<String>, OnEnd:FlxTimer->Void):Void {
+		exists = true;
 		msg = Msg;
 		curMsg = 0;
 		onEnd = OnEnd;

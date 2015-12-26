@@ -13,7 +13,6 @@ class Action extends Context {
 	
 	public function new(E:Entity) {
 		super();
-		Reg.state.hint.exists = true;
 		e = E;
 	}
 	
