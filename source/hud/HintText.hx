@@ -31,6 +31,11 @@ class HintText extends FlxSpriteGroup {
 		}
 	}
 	
+	public function setTile(TileX:Float, TileY:Float):Void {
+		x = TileX * Reg.TILESIZE + Reg.HALFTILESIZE - bg.width / 2;
+		y = TileY * Reg.TILESIZE + Reg.HALFTILESIZE - bg.height;
+	}
+	
 	override public function update():Void {
 		super.update();
 		bg.setPosition(x, y);

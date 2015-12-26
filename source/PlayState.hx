@@ -132,8 +132,7 @@ class PlayState extends FlxState {
 				if (Grid.getEntDistance(grid.cur, selected) <= 1) {
 					hint.visible = true;
 					hint.setText(selected.hint);
-					hint.x = selected.curTileX * Reg.TILESIZE + Reg.HALFTILESIZE - hint.bg.width / 2;
-					hint.y = selected.curTileY * Reg.TILESIZE + Reg.HALFTILESIZE - hint.bg.height;
+					hint.setTile(selected.curTileX, selected.curTileY);
 				}
 			}
 			
