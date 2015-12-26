@@ -73,17 +73,18 @@ class Grid extends FlxTilemap {
 										setTile(e.curTileX, e.curTileY, INTERACT);
 						}
 	}
+	private function pathIsOk(Start:FlxPoint, End:FlxPoint):Bool {
+		return collisionMap.findPath(Start, End, true, false, true) != null;
+	}
 	
 	static public function getDistance(X1:Int, Y1:Int, X2:Int, Y2:Int):Float {
 		return Math.sqrt(Math.pow(X1 - X2, 2) + Math.pow(Y1 - Y2, 2));
 	}
-	
 	static public function getEntDistance(E1:Entity, E2:Entity):Float {
 		return getDistance(E1.curTileX, E1.curTileY, E2.curTileX, E2.curTileY);
 	}
-	
-	private function pathIsOk(Start:FlxPoint, End:FlxPoint):Bool {
-		return collisionMap.findPath(Start, End, true, false, true) != null;
+	public function getTileAt(E:Entity):Int {
+		return getTile(E.curTileX, E.curTileY);
 	}
 	
 	public function showArrow(S:Selector):Void {
@@ -94,10 +95,6 @@ class Grid extends FlxTilemap {
 		}
 		else
 			path = null;
-	}
-	
-	public function selectedTile(S:Selector):Int {
-		return getTile(S.curTileX, S.curTileY);
 	}
 	
 	private var b:BitmapData;

@@ -12,9 +12,6 @@ import flixel.util.FlxTimer;
 class Speech extends FlxGroup {
 	
 	static private inline var HEIGHT:Int = 42;
-	static private inline var MARGIN:Int = 4;
-	static private inline var BG_COLOR:Int = 0xff000000;
-	static private inline var TEXT_COLOR:Int = 0xff00D427;
 	
 	public var bg:FlxSprite;
 	public var text:CypherText;
@@ -29,13 +26,13 @@ class Speech extends FlxGroup {
 		
 		bg = new FlxSprite(0, FlxG.height - HEIGHT);
 		add(bg);
-		bg.makeGraphic(FlxG.width, HEIGHT, BG_COLOR, true);
+		bg.makeGraphic(FlxG.width, HEIGHT, Style.BG_COLOR, true);
 		bg.scrollFactor.set();
 		
-		text = new CypherText(MARGIN, bg.y + MARGIN, bg.width - MARGIN * 2, "");
+		text = new CypherText(Style.MARGIN, bg.y + Style.MARGIN, bg.width - Style.MARGIN * 2, "");
 		add(text);
 		text.scrollFactor.set();
-		text.color = TEXT_COLOR;
+		text.color = Style.TEXT_COLOR;
 		timer = new FlxTimer(0.5, null, 0);
 		
 		exists = false;

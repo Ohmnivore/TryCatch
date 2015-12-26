@@ -9,7 +9,7 @@ import flixel.util.FlxPoint;
  * ...
  * @author Ohmnivore
  */
-class Selector extends FlxSprite {
+class Selector extends Entity {
 	
 	public var rightKey:String = "RIGHT";
 	public var leftKey:String = "LEFT";
@@ -21,17 +21,13 @@ class Selector extends FlxSprite {
 	private var oldX:Float = 0;
 	private var oldY:Float = 0;
 	
-	public var curTileX:Int;
-	public var curTileY:Int;
-	
 	public function new(X:Float = 0, Y:Float = 0) {
 		super(X, Y);
 		loadGraphic("assets/images/selector.png", true, 38, 38);
 		offset.set(4, 4);
-		animation.add("opened", [0]);
-		animation.add("closed", [1]);
 		animation.add("alternating", [0, 1], 1);
 		animation.play("alternating");
+		visible = true;
 	}
 	
 	override public function update():Void {
@@ -69,20 +65,8 @@ class Selector extends FlxSprite {
 		x = Math.floor(xBuffer / Reg.TILESIZE) * Reg.TILESIZE;
 		y = Math.floor(yBuffer / Reg.TILESIZE) * Reg.TILESIZE;
 		
-		if (oldX != x || oldY != y) {
-			curTileX = Math.floor(x / Reg.TILESIZE);
-			curTileY = Math.floor(y / Reg.TILESIZE);
-		}
-		
 		oldX = x;
 		oldY = y;
-	}
-	
-	public function getTileCoords():FlxPoint {
-		return new FlxPoint(curTileX * Reg.TILESIZE, curTileY * Reg.TILESIZE);
-	}
-	public function getTileMidpoint():FlxPoint {
-		return new FlxPoint(curTileX * Reg.TILESIZE + Reg.HALFTILESIZE, curTileY * Reg.TILESIZE + Reg.HALFTILESIZE);
 	}
 	
 	public function setCameraFollow():Void {

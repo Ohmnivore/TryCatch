@@ -9,10 +9,6 @@ import flixel.text.FlxText;
  */
 class HintText extends FlxSpriteGroup {
 	
-	static private inline var MARGIN:Int = 4;
-	static private inline var BG_COLOR:Int = 0xff000000;
-	static private inline var TEXT_COLOR:Int = 0xff00D427;
-	
 	public var bg:FlxSprite;
 	public var text:FlxText;
 	
@@ -22,7 +18,7 @@ class HintText extends FlxSpriteGroup {
 		add(bg);
 		text = new FlxText();
 		add(text);
-		text.color = TEXT_COLOR;
+		text.color = Style.TEXT_COLOR;
 		visible = false;
 	}
 	
@@ -30,13 +26,14 @@ class HintText extends FlxSpriteGroup {
 		if (text.text != Text) {
 			text.text = Text;
 			text.drawFrame();
-			bg.makeGraphic(Std.int(text.frameWidth) + MARGIN * 2, Std.int(text.frameHeight) + MARGIN * 2, BG_COLOR, true);
+			bg.makeGraphic(Std.int(text.frameWidth) + Style.MARGIN * 2,
+				Std.int(text.frameHeight) + Style.MARGIN * 2, Style.BG_COLOR, true);
 		}
 	}
 	
 	override public function update():Void {
 		super.update();
 		bg.setPosition(x, y);
-		text.setPosition(x + MARGIN, y+ MARGIN);
+		text.setPosition(x + Style.MARGIN, y + Style.MARGIN);
 	}
 }

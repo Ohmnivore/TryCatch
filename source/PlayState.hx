@@ -66,6 +66,9 @@ class PlayState extends FlxState {
 		hint = new HintText();
 		hud.add(hint);
 		
+		canvas = new Canvas();
+		under.add(canvas);
+		
 		var tl:TiledLoader = new TiledLoader("assets/data/1.tmx");
 		FlxG.camera.bgColor = tl.bgColor;
 		for (tilemap in tl.tilemaps)
@@ -73,17 +76,22 @@ class PlayState extends FlxState {
 		for (e in tl.entities)
 			entities.add(e);
 		context = C_BROWSE;
+		
+		// Set selector pos to protagonist
 		var e:Entity = entities.getEntityByClass(Unit27);
 		selector.x = e.x;
 		selector.y = e.y;
-		var skip:Bool = false;
-		#if !FLX_NO_DEBUG
-		skip = true;
-		#end
-		loadScene(tl.sceneName, skip);
 		
-		canvas = new Canvas();
-		under.add(canvas);
+		// Load intro scene, if any
+		if (tl.sceneName != null) {
+			var skip:Bool = false;
+			#if !FLX_NO_DEBUG
+			skip = true;
+			#end
+			loadScene(tl.sceneName, skip);
+		}
+		
+		// Create the selection grid
 		grid = new Grid(tilemaps.members[0].widthInTiles, tilemaps.members[0].heightInTiles);
 		grid.collisionMap = tilemaps.members[0];
 		grid.canvas = canvas;
@@ -102,7 +110,7 @@ class PlayState extends FlxState {
 	override public function update():Void {
 		super.update();
 		
-		status.set(entities.getSelectedEntity(selector));
+		status.set(entities.getEntityAt(selector));
 		
 		if (context == C_BROWSE) {
 			if (FlxG.keys.justPressed.Z) {
@@ -113,14 +121,14 @@ class PlayState extends FlxState {
 			grid.showArrow(selector);
 			hint.visible = false;
 			
-			if (grid.selectedTile(selector) == Grid.MOVE) {
+			if (grid.getTileAt(selector) == Grid.MOVE) {
 				if (FlxG.keys.justPressed.Z && grid.path != null) {
 					grid.cur.followPath(grid.path);
 					stopMove();
 				}
 			}
-			else if (grid.selectedTile(selector) == Grid.INTERACT) {
-				var selected:Entity = entities.getSelectedEntity(selector);
+			else if (grid.getTileAt(selector) == Grid.INTERACT) {
+				var selected:Entity = entities.getEntityAt(selector);
 				if (Grid.getEntDistance(grid.cur, selected) <= 1) {
 					hint.visible = true;
 					hint.setText(selected.hint);
@@ -137,7 +145,7 @@ class PlayState extends FlxState {
 	}
 	
 	private function startMove():Void {
-		var e:Entity = entities.getSelectedEntity(selector);
+		var e:Entity = entities.getEntityAt(selector);
 		if (e != null && e.exists && !e.moving && e.team == 0) {
 			grid.showMove(e, entities);
 			context = C_MOVE;
