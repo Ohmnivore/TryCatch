@@ -61,6 +61,8 @@
  <objectgroup name="Object Layer 1">
   <object id="18" name="Station" x="298" y="269">
    <properties>
+    <property name="hint" value="Wait for the express train to arrive"/>
+    <property name="interact" value="true"/>
     <property name="name" value="Train stop"/>
    </properties>
   </object>

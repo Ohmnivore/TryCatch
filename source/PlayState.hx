@@ -19,6 +19,7 @@ import state.Browse;
 import state.Context;
 import util.TiledLoader;
 import flixel.system.scaleModes.RatioScaleMode;
+import scene.Scene;
 
 class PlayState extends FlxState {
 	
@@ -34,6 +35,7 @@ class PlayState extends FlxState {
 	public var speech:Speech;
 	public var hint:HintText;
 	
+	public var scene:Scene;
 	public var context:Context;
 	
 	override public function create():Void {
@@ -98,7 +100,7 @@ class PlayState extends FlxState {
 	
 	public function loadScene(Name:String, Skip:Bool = false):Void {
 		var className:String = "scene." + Name;
-		Type.createInstance(Type.resolveClass(className), [this, Skip]);
+		scene = cast Type.createInstance(Type.resolveClass(className), [this, Skip]);
 	}
 	
 	override public function update():Void {

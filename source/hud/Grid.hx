@@ -52,6 +52,7 @@ class Grid extends FlxTilemap {
 	}
 	
 	public function showActions(E:Entity, Ents:EntityGroup):Void {
+		clear();
 		var tx:Int = Std.int(E.x / _tileWidth);
 		var ty:Int = Std.int(E.y / _tileHeight);
 		for (i in 0...heightInTiles)
@@ -65,7 +66,7 @@ class Grid extends FlxTilemap {
 							setTile(j, i, MOVE);
 							// Interact tile
 							for (e in Ents.members)
-								if (e.interact)
+								if (e.exists && e.interact)
 									if (getDistance(e.curTileX, e.curTileY, j, i) <= 1)
 										setTile(e.curTileX, e.curTileY, INTERACT);
 						}

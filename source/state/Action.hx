@@ -2,6 +2,7 @@ package state;
 import hud.Grid;
 import ent.Entity;
 import flixel.FlxG;
+import scene.Scene;
 
 /**
  * ...
@@ -36,6 +37,11 @@ class Action extends Context {
 				Reg.state.hint.visible = true;
 				Reg.state.hint.setText(selected.hint);
 				Reg.state.hint.setTile(selected.curTileX, selected.curTileY);
+			}
+			if (FlxG.keys.justPressed.Z) {
+				sendScene(Scene.EVENT_INTERACT, selected);
+				Reg.state.selector.snapToEntity(e);
+				Reg.state.grid.showActions(e, Reg.state.entities);
 			}
 		}
 		

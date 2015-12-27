@@ -23,4 +23,9 @@ class Context {
 	private function readyForAction(E:Entity):Bool {
 		return (E != null && E.exists && !E.moving && E.team == 0);
 	}
+	
+	private function sendScene(Event:Int, Target:Entity):Void {
+		if (Reg.state.scene != null)
+			Reg.state.scene.receive(Event, Target);
+	}
 }

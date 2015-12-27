@@ -1,4 +1,5 @@
 package scene;
+import ent.Entity;
 import flixel.util.FlxTimer;
 import state.Browse;
 import state.Cinematic;
@@ -8,6 +9,8 @@ import state.Cinematic;
  * @author Ohmnivore
  */
 class Scene {
+	
+	static public inline var EVENT_INTERACT = 0;
 	
 	public var state:PlayState;
 	public var skip:Bool;
@@ -24,5 +27,9 @@ class Scene {
 	
 	private function end(T:FlxTimer = null):Void {
 		state.context = new Browse();
+	}
+	
+	public function receive(Event:Int, Target:Entity):Void {
+		
 	}
 }
