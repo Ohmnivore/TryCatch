@@ -1,16 +1,21 @@
 <html>
+	<head>
+		<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+		<META HTTP-EQUIV="Expires" CONTENT="-1">
+	</head>
+	
 	<style>
 		object {vertical-align: middle;}
 	</style>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<center>
+	
+	<br/><br/><br/>
+	
 	<body bgcolor="#000000">
-		<!-- top flash embed swf tag start--><object data="http://fouramgames.com/swf/TryCatch.swf" height="480" type="application/x-shockwave-flash" width="640"><param name="movie" value="http://fouramgames.com/swf/TryCatch.swf"></param><param name="quality" value="best"></param><param name="wmode" value="transparent"></param><param name="scale" value="default"></param><param name="FlashVars" value=""></param><param name="allowFullScreen" value="false"></param></object>
-	</center>
+		<center>
+			<script type="text/javascript">
+				document.write('<object data="http://fouramgames.com/swf/TryCatch.swf?a=' +
+					Math.floor((Math.random() * 100000000)) + '" width="640" height="480" type="application/x-shockwave-flash" />');
+			</script>
+		</center>
 	</body>
 </html>
